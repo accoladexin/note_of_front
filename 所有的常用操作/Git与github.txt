@@ -1,0 +1,48 @@
+Git
+
+#配置用户信息
+git config --global user.name "xinxindeng"
+git config --global user.email "1027842619@qq.com"
+git config --list --global #查看全局配置信息
+
+#查看用户配置信息
+git config user.name
+git config user.email
+
+
+git help config #获取配置信息
+git config -h #简明的配置信息
+
+#检查文件状态
+git status 
+
+#添加跟踪文件
+git add .  #所有文件
+git add index.css #某个文件
+
+#提交更新
+git commit -m "新建了三个文件"
+
+#撤销文件
+git checkout --index.html
+
+
+# 从Git仓库和工作区同事移除文件 index.js
+git rm -f index.js
+# 只从仓库中移除文件 index.css
+git rm  --cached index.css
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
