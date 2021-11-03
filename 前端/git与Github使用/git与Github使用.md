@@ -105,7 +105,7 @@ git status -short
 
 ![image-20211029104531398](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029104531398.png)
 
-红色的??表示为跟踪文件
+红色的??表示未跟踪文件
 
 ## 2.5 跟踪新的文件
 
@@ -207,4 +207,283 @@ git rm -f index.js
 # 只从仓库中移除文件 index.css
 git rm  --cached index.css
 ```
+
+![image-20211029112314029](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029112314029.png)
+
+![image-20211029112331318](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029112331318.png)
+
+index.js都被删除了,但是index.css在工作区里面还有.
+
+## 2.13忽略文件
+
+一般我们总会有些文件无需纳入Git 的管理，也不希望它们总出现在未跟踪文件列表。在这种情况下，我们可 以创建一个名为.gitignore的配置文件，列出要忽略的文件的匹配模式。 文件.gitignore 的格式规范如下：
+
+ ① 以 # 开头的是注释
+
+ ② 以 / 结尾的是目录
+
+ ③ 以 / 开头防止递归 
+
+④ 以 ! 开头表示取反 
+
+⑤ 可以使用 glob 模式进行文件和文件夹的匹配（glob 指简化了的正则表达式）
+
+glob模式
+
+所谓的glob 模式是指简化了的正则表达式：
+
+ ① 星号 * 匹配零个或多个任意字符
+
+ ② [abc] 匹配任何一个列在方括号中的字符（此案例匹配一个a 或匹配一个b 或匹配一个c）
+
+ ③ 问号 ? 只匹配一个任意字符
+
+ ④ 在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如[0-9] 表示匹配 所有0 到 9 的数字） 
+
+⑤ 两个星号 ** 表示匹配任意中间目录（比如a/**/z 可以匹配 a/z 、 a/b/z 或 a/b/c/z 等）
+
+![image-20211029124849853](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029124849853.png)
+
+## 2.14 查看提交历史
+
+```
+git log 
+git log -2 #查看最新提交历史
+git log -2 --pretty=online #在一行展示最近两条提交的历史信息
+
+git log -2 --pretty=format:"%h | %an | %ar | %s"
+```
+
+![image-20211029125701722](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029125701722.png)
+
+## 2.15 回退到指定的版本
+
+```Git
+git log --pretty=oneline
+git reset --hard <CommitID>
+
+git reflog --pretty=oneline
+git reset --hard <CommitID>
+```
+
+![image-20211029130341610](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029130341610.png)
+
+![image-20211029130326567](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029130326567.png)
+
+## 2.16 小结
+
+① 初始化 Git 仓库的命令 ` git init`
+
+ ② 查看文件状态的命令 `git status`或` git status -s `
+
+③ 一次性将文件加入暂存区的命令` git add `. 
+
+④ 将暂存区的文件提交到Git 仓库的命令 ` git commit -m `提交消息"
+
+# 3. Github使用与配置
+
+网址`https://github.com/`
+
+## 3.1新建空白远程仓库
+
+直接上老师的图
+
+![image-20211029154415384](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029154415384.png)
+
+建立成功:
+
+![image-20211029154445515](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029154445515.png)
+
+## 3.2远程仓库的两种方式
+
+Github 上的远程仓库，有两种访问方式，分别是HTTPS和 SSH。它们的区别是： 
+
+① HTTPS：零配置；但是每次访问仓库时，需要重复输入 Github 的账号和密码才能访问成功
+
+ ② SSH：需要进行额外的配置；但是配置成功后，每次访问仓库时，不需重复输入Github 的账号和密码
+
+注意：在实际开发中，推荐使用SSH 的方式访问远程仓库。
+
+### 3.2.1 HTTPS将本地仓传到Github
+
+![image-20211029154624072](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029154624072.png)
+
+### 3.2.2 SSH远程链接
+
+SSH key 的作用：实现本地仓库和 Github 之间免登录的加密数据传输。 
+
+SSH key 的好处：免登录身份认证、数据加密传输。 
+
+SSH key 由两部分组成，分别是：
+
+ ① id_rsa（私钥文件，存放于客户端的电脑中即可）
+
+ ② id_rsa.pub（公钥文件，需要配置到 Github 中）
+
+#### 生成SSH Key
+
+  ① 打开Git Bash
+
+ ② 粘贴如下的命令，并将`your_email@example.com `替换为注册` Github` 账号时填写的邮箱：
+
+ ```
+ ssh-keygen -t rsa -b 4096 -C "accoladexin@example.com" 
+ ```
+
+③ 连续敲击 3 次回车，即可在C:\Users\用户名文件夹\.ssh目录中生成id_rsa和 id_rsa.pub 两个文件
+
+![image-20211029155430171](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029155430171.png)
+
+#### 配置SSH
+
+位置`C:\Users\Administrator\.ssh`
+
+① 使用记事本打开id_rsa.pub文件，复制里面的文本内容 
+
+![image-20211029155614658](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029155614658.png)
+
+② 在浏览器中登录Github，点击头像-> Settings-> SSH and GPG Keys -> New SSH key 
+
+![image-20211029155832933](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029155832933.png)
+
+![image-20211029160146252](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160146252.png)
+
+③ 将 id_rsa.pub 文件中的内容，粘贴到Key 对应的文本框中 
+
+④ 在 Title 文本框中任意填写一个名称，来标识这个Key 从何而
+
+####  检测是SSH是否配置成功
+
+打开Git Bash，输入如下的命令并回车执行：
+
+```
+ssh -T git@github.com
+```
+
+![image-20211029160634226](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160634226.png)
+
+上述的命令执行成功后，可能会看到如下的提示消息：
+
+![image-20211029160713860](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160713860.png)
+
+输入yes 之后，如果能看到类似于下面的提示消息，证明SSH key 已经配置成功了：
+
+![image-20211029160729345](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160729345.png)
+
+全图:
+
+![image-20211029160823378](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160823378.png)
+
+## 3.3 基于 SSH 将本地仓库上传到 Github
+
+![image-20211029160907367](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029160907367.png)
+
+只管复制就好了
+
+这个是首次上传是这样的
+
+## 3.4 将远程仓库克隆到本地
+
+打开Git Bash，输入如下的命令并回车执行：
+
+```
+git clone 远程的地址
+```
+
+![image-20211029161817912](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211029161817912.png)
+
+# 4. Git分支
+
+## 4.1本地操作
+
+### 4.1.1查看分支列表
+
+```
+git branch
+```
+
+![image-20211103195907323](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103195907323.png)
+
+注意：分支名字前面的* 号表示当前所处的分支
+
+### 4.1.2 创建新分支
+
+```
+git branch 分支名称
+```
+
+![image-20211103200056084](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103200056084.png)
+
+### 4.1.3 切换分支
+
+```
+git checkout 分支名称
+```
+
+![image-20211103200230078](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103200230078.png)
+
+![image-20211103200343474](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103200343474.png)
+
+### 4.1.4分支的快速创建和切换
+
+使用如下的命令，可以创建指定名称的新分支，并立即切换到新分支上：
+
+```
+# -b 表示创建一个新的分支
+# checkout 表示切换
+git checkout -b 分支名称
+```
+
+![image-20211103200825550](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103200825550.png)
+
+###  4.1.5合并分支
+
+功能分支的代码开发测试完毕之后，可以使用如下的命令，将完成后的代码合并到main 主分支上：
+
+```
+# 先切换到main上去
+git checkout main
+#在合并
+git merge 分支名称
+```
+
+![image-20211103201236499](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103201236499.png)
+
+![image-20211103201247844](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103201247844.png)
+
+合并分支时的注意点： 假设要把C 分支的代码合并到A 分支， 则必须先切换到A 分支上，再运行git merge 命令，来合并C 分支！
+
+### 4.1.6 删除分支
+
+当把功能分支的代码合并到main主分支上以后，就可以使用如下的命令，删除对应的功能分支：
+
+```
+git branch -d 分支名称
+```
+
+![image-20211103202709566](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103202709566.png)
+
+### 4.1.7遇到冲突时的分支合
+
+如果在两个不同的分支中，对同一个文件进行了不同的修改，Git 就没法干净的合并它们。此时，我们需要打开 这些包含冲突的文件然后手动解决冲突。
+
+![image-20211103202801721](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103202801721.png)
+
+## 4.2远程分支操作
+
+### 4.2.1将本地分支推送到远程仓库
+
+如果是第一次将本地分支推送到远程仓库，需要运行如下的命令：(可能现在更新了)
+
+![image-20211103202908609](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103202908609.png)
+
+注意：第一次推送分支需要带-u 参数，此后可以直接使用git push 推送代码到远程分支。
+
+### 4.2.3查看远程仓库中所有的分支列表
+
+```
+git remote show 远程仓库名字
+```
+
+
 
