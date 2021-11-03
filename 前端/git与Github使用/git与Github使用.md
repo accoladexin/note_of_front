@@ -479,11 +479,62 @@ git branch -d 分支名称
 
 注意：第一次推送分支需要带-u 参数，此后可以直接使用git push 推送代码到远程分支。
 
+### 4.2.2报错处理
+
+https://www.jianshu.com/p/c6f2e1ca2999
+
+### 4.2.4远程和本地冲突了
+
+1.强覆盖
+
+```
+  git push -f origin main
+```
+
+2.先拉后传
+
+```
+  git pull –-rebase origin main
+  git push origin main
+```
+
 ### 4.2.3查看远程仓库中所有的分支列表
 
 ```
 git remote show 远程仓库名字
 ```
 
+### 4.2.4跟踪分支
 
+跟踪分支指的是：从远程仓库中，把远程分支下载到本地仓库中。需要运行的命令如下：
 
+![image-20211103212250571](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103212250571.png)
+
+### 4.2.5拉取远程分支的最新的代码
+
+![image-20211103212345972](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103212345972.png)
+
+### 4.2.6 删除远程分支
+
+![image-20211103212447156](git%E4%B8%8EGithub%E4%BD%BF%E7%94%A8.assets/image-20211103212447156.png)
+
+# 5. 总结
+
+① 能够掌握 Git 中基本命令的使用 
+
+- git init 
+-  git add . 
+-  git commit –m "提交消息" 
+-  git status 和 git status -s 
+
+② 能够使用 Github 创建和维护远程仓库 
+
+-  能够配置Github 的 SSH 访问 
+-  能够将本地仓库上传到Github 
+
+③ 能够掌握 Git 分支的基本使用
+
+-  git checkout -b 新分支名称 
+-  git push -u origin 新分支名称 
+-  git checkout 分支名称 
+-  git branch
